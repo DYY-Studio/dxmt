@@ -145,16 +145,22 @@ xcrun = find_program('xcrun')
 # way (metallib_writer.cpp). -Dmetal_std overrides when the shaders grow a
 # newer requirement.
 metal_std = get_option('metal_std')
+metal_sdk = 'macosx'
+metal_target = 'air64-apple-macos14.0'
+if host_machine.system() == 'windows' or dxmt_madeira
+  metal_sdk = 'iphoneos'
+  metal_target = 'air64-apple-ios17.4'
+endif
 
 metalir_generator = generator(xcrun,
   output    : [ '@BASENAME@.air'],
-  arguments : [ '-sdk', 'macosx', 'metal', '-std=' + metal_std, '--target=air64-apple-macos14.0',
+  arguments : [ '-sdk', metal_sdk, 'metal', '-std=' + metal_std, '--target=' + metal_target,
                 '-o', '@OUTPUT@', '-c', '@INPUT@', '@EXTRA_ARGS@'],
 )
 
 metallib_generator = generator(xcrun,
   output    : [ '@BASENAME@.metallib'],
-  arguments : [ '-sdk', 'macosx', 'metallib', '-o', '@OUTPUT@', '@INPUT@'],
+  arguments : [ '-sdk', metal_sdk, 'metallib', '-o', '@OUTPUT@', '@INPUT@'],
 )
 
 xxd = find_program('xxd')

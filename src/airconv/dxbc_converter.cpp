@@ -389,7 +389,11 @@ void setup_metal_version(llvm::Module &module, SM50_SHADER_METAL_VERSION metal_v
     airLangVersion->addOperand(MDTuple::get(
         context, {createString("Metal"), createUnsignedInteger(3), createUnsignedInteger(2), createUnsignedInteger(0)}
     ));
+#ifdef DXMT_IOS
+    module.setTargetTriple("air64-apple-ios18.0.0");
+#else
     module.setTargetTriple("air64-apple-macosx15.0.0");
+#endif
     break;
   }
   default: {

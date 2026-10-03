@@ -37,7 +37,11 @@ public:
       break;
     }
     WMTGetOSVersion(&macos_major_version, &macos_minor_version, nullptr);
+#ifdef DXMT_IOS
+    if (macos_major_version >= 18) {
+#else
     if (macos_major_version >= 15) {
+#endif
       metal_version_ = std::min(WMTMetal320, metal_version_);
     } else {
       metal_version_ = std::min(WMTMetal310, metal_version_);

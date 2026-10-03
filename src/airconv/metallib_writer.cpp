@@ -391,12 +391,19 @@ void MetallibWriter::Write(const llvm::Module &module, raw_ostream &OS) {
   header.BitcodeSize = bitcode.size();
 
   header.Type = FileType::MTLBType_Executable; // executable
+#ifdef DXMT_IOS
+  header.Platform = Platform::MTLBPlatform_iOS;
+  header.OS = OS::MTLBOS_iOS;
+  header.OSVersionMajor = 17;
+  header.OSVersionMinor = 4;
+#else
   header.Platform = Platform::MTLBPlatform_macOS;
-  header.VersionMajor = 2;
-  header.VersionMinor = 7;
   header.OS = OS::MTLBOS_macOS;
   header.OSVersionMajor = 14;
   header.OSVersionMinor = 4;
+#endif
+  header.VersionMajor = 2;
+  header.VersionMinor = 7;
 
   // write to stream
   OS << value(header);

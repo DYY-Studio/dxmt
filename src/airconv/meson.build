@@ -64,7 +64,6 @@ airconv_shaders = [
 
 airconv_shaders_ir = metalir_generator.process(
   airconv_shaders,
-  extra_args: ['-std=metal3.1', '--target=air64-apple-macos14.0'],
 )
 airconv_shaders_header = hexdump_generator.process(airconv_shaders_ir)
 
