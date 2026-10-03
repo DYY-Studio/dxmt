@@ -96,10 +96,16 @@ compile_dxso(
   // missing these. Mirrors dxbc::setup_metal_version's
   // SM50_SHADER_METAL_320 arm.
   auto u32_md = [&](uint32_t v) { return ConstantAsMetadata::get(ConstantInt::get(context, APInt{32, v})); };
+#ifdef DXMT_IOS
+  module.setTargetTriple("air64-apple-ios17.4.0");
+  const unsigned air_minor = 6, metal_minor = 1;
+#else
   module.setTargetTriple("air64-apple-macosx15.0.0");
-  module.getOrInsertNamedMetadata("air.version")->addOperand(MDTuple::get(context, {u32_md(2), u32_md(7), u32_md(0)}));
+  const unsigned air_minor = 7, metal_minor = 2;
+#endif
+  module.getOrInsertNamedMetadata("air.version")->addOperand(MDTuple::get(context, {u32_md(2), u32_md(air_minor), u32_md(0)}));
   module.getOrInsertNamedMetadata("air.language_version")
-      ->addOperand(MDTuple::get(context, {MDString::get(context, "Metal"), u32_md(3), u32_md(2), u32_md(0)}));
+      ->addOperand(MDTuple::get(context, {MDString::get(context, "Metal"), u32_md(3), u32_md(metal_minor), u32_md(0)}));
 
   air::FunctionSignatureBuilder sig;
 
