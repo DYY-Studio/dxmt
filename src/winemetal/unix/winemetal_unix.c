@@ -296,7 +296,18 @@ _MTLCopyAllDevices(void *obj) {
     params->ret = (wmtr_call(RM_OP_COPY_ALL_DEVICES, 0, 0, &r, sizeof r, 0) == RM_OK) ? r.handle : 0;
     return STATUS_SUCCESS;
   }
+#if TARGET_OS_IOS
+  if (@available(iOS 18.0, *)) {
+    params->ret = (obj_handle_t)MTLCopyAllDevices();
+  } else {
+    id<MTLDevice> device = MTLCreateSystemDefaultDevice();
+    NSArray *devices = device ? [[NSArray alloc] initWithObjects:device, nil] : [[NSArray alloc] init];
+    [device release];
+    params->ret = (obj_handle_t)devices;
+  }
+#else
   params->ret = (obj_handle_t)MTLCopyAllDevices();
+#endif
   return STATUS_SUCCESS;
 }
 
