@@ -97,7 +97,7 @@ compile_dxso(
   // SM50_SHADER_METAL_320 arm.
   auto u32_md = [&](uint32_t v) { return ConstantAsMetadata::get(ConstantInt::get(context, APInt{32, v})); };
 #ifdef DXMT_IOS
-  module.setTargetTriple("air64-apple-ios17.4.0");
+  module.setTargetTriple("air64-apple-ios17.0.0");
   const unsigned air_minor = 6, metal_minor = 1;
 #else
   module.setTargetTriple("air64-apple-macosx15.0.0");

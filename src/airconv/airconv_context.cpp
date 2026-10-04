@@ -39,7 +39,7 @@ namespace dxmt {
 void initializeModule(llvm::Module &M) {
   M.setSourceFileName("airconv_generated.metal");
 #ifdef DXMT_IOS
-  M.setTargetTriple("air64-apple-ios17.4.0");
+  M.setTargetTriple("air64-apple-ios17.0.0");
 #else
   M.setTargetTriple("air64-apple-macosx14.0.0");
 #endif

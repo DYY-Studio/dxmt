@@ -149,7 +149,7 @@ metal_sdk = 'macosx'
 metal_target = 'air64-apple-macos14.0'
 if host_machine.system() == 'windows' or dxmt_madeira
   metal_sdk = 'iphoneos'
-  metal_target = 'air64-apple-ios17.4'
+  metal_target = 'air64-apple-ios17.0'
 endif
 
 metalir_generator = generator(xcrun,
